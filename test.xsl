@@ -9,8 +9,6 @@
     version="3.0">
     <xsl:use-package name="http://www.nkutsche.com/xpath-model" package-version="*"/>
     
-<!--    <xsl:param name="editscript" as="document-node(element(es:editscript))"/>-->
-
     <xsl:template name="init" match="/*">
         <xsl:sequence select="xpm:xpath-model(.)"/>
     </xsl:template>
