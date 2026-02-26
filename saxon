@@ -10,4 +10,4 @@ DP0=$(dirname "$0")
 # We use "$DP0/mvnw" to ensure we call the wrapper in the script's directory
 "$DP0/mvnw" -f "$DP0/pom.xml" compile \
     exec:exec -Dexec.executable="java" \
-    -Dexec.args="-DSAXON_INITIALIZER=com.nkutsche.xslt.pkg.handler.PackageManager -cp target/classes:%%classpath com.nkutsche.issues.SaxonCaller"
+    -Dexec.args="-cp target/classes:%%classpath com.nkutsche.issues.SaxonCaller"
