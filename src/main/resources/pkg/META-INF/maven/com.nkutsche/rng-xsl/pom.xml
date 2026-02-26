@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>com.nkutsche</groupId>
+    <artifactId>rng-xsl</artifactId>
+    <version>1.1.0</version>
+    
+    <name>Maven wrapper for XSLT 2.0 implementation of Relax NG</name>
+    <description>This project is just a Maven wrapper for Max Toro's rng.xsl (XSLT 2.0 implementation of Relax NG). It provides an XSLT 3.0 package with a trivial XSLT function API which can be included using my XSLT Package Handler.</description>
+    
+    <properties>
+        <resource.subdir>io/github/maxtoroq/rng-xsl</resource.subdir>
+    </properties>
+    
+    <scm>
+        <url>https://github.com/nkutsche/rng-xsl-maven-wrapper</url>
+        <developerConnection>scm:git:https://github.com/nkutsche/rng-xsl-maven-wrapper</developerConnection>
+        <tag>releases/v1.1.0</tag>
+    </scm>
+    
+    <distributionManagement>
+        <repository>
+            <id>data2type-nexus</id>
+            <layout>default</layout>
+            <name>d2t public repo</name>
+            <url>https://repo.data2type.de/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>data2type-nexus</id>
+            <layout>default</layout>
+            <name>d2t public repo</name>
+            <url>https://repo.data2type.de/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
+    <developers>
+        <developer>
+            <id>maxtoroq</id>
+            <name>Max Toro Q.</name>
+            <url>https://maxtoroq.github.io/</url>
+        </developer>
+        <developer>
+            <id>nkutsche</id>
+            <name>Nico Kutscherauer</name>
+            <email>kutscherauer@data2type.de</email>
+        </developer>
+    </developers>
+    
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources.rpl</directory>
+                <filtering>true</filtering>
+                <targetPath>${resource.subdir}</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <targetPath>${resource.subdir}</targetPath>
+            </resource>
+            <resource>
+                <directory>rng.xsl/src</directory>
+                <filtering>false</filtering>
+                <targetPath>${resource.subdir}</targetPath>
+            </resource>
+            <resource>
+                <directory>rng.xsl</directory>
+                <includes>
+                    <include>LICENSE.txt</include>
+                    <include>NOTICE.xml</include>
+                </includes>
+                <filtering>false</filtering>
+                <targetPath>META-INF/LICENSE/rng.xsl</targetPath>
+            </resource>
+        </resources>
+        
+        <plugins>
+            <!-- 
+                [initialize] ensure that all submodules are updated!
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>update-git-submodule</id>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <executable>git</executable>
+                            <arguments>
+                                <argument>submodule</argument>
+                                <argument>update</argument>
+                                <argument>--init</argument>
+                                <argument>--recursive</argument>
+                            </arguments>
+                        </configuration>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.nkutsche</groupId>
+                <artifactId>xslt-pkg-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package-info</goal>
+                        </goals>
+                        <configuration>
+                            <packagePaths>
+                                <packagePath>${resource.subdir}/rng-package.xsl</packagePath>
+                            </packagePaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <tagNameFormat>releases/v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
