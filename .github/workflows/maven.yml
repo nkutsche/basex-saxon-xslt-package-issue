@@ -20,4 +20,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn exec:exec -Dexec.executable="java" -Dexec.args="-DSAXON_INITIALIZER=com.nkutsche.xslt.pkg.handler.PackageManager -cp %classpath org.basex.BaseX xquery.xq"
+      run: mvn exec:exec -Dexec.executable="java" -Dexec.args="-DSAXON_INITIALIZER=com.nkutsche.xslt.pkg.handler.PackageManager -cp target/classes:%%classpath com.nkutsche.issues.SaxonCaller"
